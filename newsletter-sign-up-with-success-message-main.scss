@@ -1,0 +1,238 @@
+
+@import 'custom.scss';
+@import '_globals.scss';
+
+$colors: (
+  Tomato: hsl(4, 100%, 67%),
+  Dark Slate Grey: hsl(234, 29%, 20%),
+  Charcoal Grey: hsl(235, 18%, 26%),
+  Grey: hsl(231, 7%, 60%),
+  White: hsl(0, 0%, 100%),
+);
+$fallback-colors: (
+  #FF6666 #666666 #999999 #CCCCCC #FFFFFF
+);
+
+@mixin font-color($color, $fallback-color) {
+  color: $fallback-color;
+  color: $color;
+}
+
+@mixin bg-color($color, $fallback-color) {
+  background-color: $fallback-color;
+  background-color: $color;
+}
+
+@mixin width($grid-size) {
+  width: $grid-size * 1px;
+}
+
+@mixin border-radius($radius...) {
+  border-radius: $radius;
+}
+@mixin margin($args...) {
+  margin: $args;
+}
+@mixin padding($args...) {
+  padding: $args;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+
+html,
+#body {
+  width: 100vw;
+  height: 100vh;
+  overflow:hidden;
+  @include bg-color(map-get($colors,Charcoal Grey),nth($fallback-colors,3));
+  @include font-color(map-get($colors,Dark Slate Grey),nth($fallback-colors,2));
+  
+}
+font{
+    size: $font_size-16;
+    weight: $font_weight-normal;
+	family: 'Roboto', sans-serif;
+}
+
+main.container {
+    @include width($container__form-xs);
+    display:flex;
+	height: 100%;
+	justify-content:center;
+	overflow: auto;
+	
+	#btn-primary,.btn-secondary{
+	      @include bg-color(map-get($colors,Dark Slate Grey),nth($fallback-colors,2));
+		  border:none;
+		  position:relative;
+		  left: 10px;
+		  max-width: 355px;
+		  height: 50px;
+		  @include border-radius(10px);
+		  &:hover{
+		      @include bg-color(darken(map-get($colors,Tomato),12),nth($fallback-colors,1));
+			  box-shadow: 4px 5px 15px map-get($colors,Tomato);
+		  }
+		  @media screen and(min-width:$container__form-xxl * 1px){
+		      max-width: 410px;
+			  left: 10px;
+		  }
+	 }
+	 
+	 section:nth-of-type(1){ 
+	   @include bg-color(map-get($colors,White),nth($fallback-colors,5));
+	   display:flex;
+	   justify-content:center;
+	   height: 900px;
+	   @include margin(50px 0);
+	   @include border-radius(15px);
+	   overflow: hidden;
+	   
+	   div#left-side{
+		  @include bg-color(map-get($colors,White),nth($fallback-colors,5));
+	      #ul{
+	         & >li{
+		       position:relative;
+			   right: 9%;
+			   height: 60px;
+		     }
+	         list-style:none;
+		     img{
+		       transform: scale(1.1,1.1);
+			   @media screen and(min-width: $container__form-xxl * 1px){
+			      transform: scale(1.2,1.2);
+			   }
+		     }
+	      }
+		  form {
+		       
+			   //basic input non form events settings
+		       input{
+				  box-shadow: none;
+			      height: 50px;
+				  @include font-color(map-get($colors,Charcoal Grey),nth($fallback-colors,3));
+				  &:focus,&:active{
+					  font-weight: $font_weight-bold;
+				  }
+			   }
+			   //basic input form on focus settings
+		       input.grey-input{
+			      border: 2px solid map-get($colors,Grey);
+				  &:focus{
+				     border: 3px solid map-get($colors,Grey);
+					 @include font-color(map-get($colors,Dark Slate Grey),nth($fallback-colors,2));
+				  }
+			   }
+			   //input form on focus error message settings
+			   .input-error{
+	              border: 2px solid map-get($colors,Tomato);
+	              @include font-color(map-get($colors,Tomato),nth($fallback-colors,1));
+                  @include bg-color(lighten(map-get($colors,Tomato),25),nth($fallback-colors,1));
+               }
+		  }
+	      .invalid-feedback{
+	         @include font-color(map-get($colors,Tomato),nth($fallback-colors,1));
+	         position:relative;
+		     left: 70%;
+		     top: 20%;
+		     @media screen and (min-width: $container__form-xxl * 1px) {
+		        left: 75%;
+		     }
+	       }
+		   @media screen and(min-width:$container__form-xxl *1px){
+		     @include padding(90px 0 90px 30px);
+		   }
+	   }
+	   
+	   
+	   div#right-side{
+	      padding:0;
+	      margin:0;
+		  img{
+		     position:relative;
+		     @include border-radius(0);
+			 @media screen and(min-width: $container__form-xxl * 1px){
+				top: 50px;
+				@include padding(0 0 0 30px);
+			    transform: scale(0.9,1.1);
+			 }
+		  }
+		  #desktop{
+	        display:none;
+		    @media screen and (min-width: $container__form-xxl * 1px){
+		       display:block;
+		    }
+	      }
+	      #mobile {
+             display: block;
+		     @media screen and (min-width: $container__form-xxl * 1px){
+		       display: none;
+		     }
+          }	  
+	   } 
+    
+	
+       @media screen and (min-width: $container__form-xxl * 1px) {
+	      height: 700px;
+	      @include margin(100px 0);
+       }
+     }
+	 
+	 
+     section.success{
+	      /*hide success message section until user successfully submits the form*/
+	      display:none;
+		  @include border-radius(15px);
+		  @include bg-color(map-get($colors,White),nth($fallback-colors,5));
+		  height: 900px;
+		  @include margin(50px 0);
+		  position:relative;
+		  @include padding(25px);
+		  h2{
+		     font-size: $font_size-16 * 2.6;
+			 font-weight: $font_weight-bold;
+			 top: 40px;
+			 
+		  }
+		  address.confirmed{
+             a{
+			    text-decoration:none;
+				@include font-color(map-get($colors,Dark Slate Grey),nth($fallback-colors,2));
+			 }
+			 font-weight: $font_weight-bold;
+		  }
+		  .btn-secondary{
+		     position:relative;
+			 top: 50%;
+			 left:-3px;
+			 @media screen and (min-width: $container__form-xxl * 1px) {
+			    left: -1px;
+				top: 20%;
+			 }
+		  }
+		  @media screen and (min-width: $container__form-xxl * 1px) {
+		      margin-top: 50px;
+	          height: 500px;
+			  width: 400px;
+	      }
+	 }
+	 @media screen and (min-width: $container__form-xxl * 1px) {
+	     @include width($container__form-xxl);
+	 }
+}
+
+footer {
+   @include font-color(map-get($colors,White),nth($fallback-colors,5));
+  .attribution {
+    font-size: $font_size-8;
+    text-align: center;
+  }
+  .attribution a {
+    color: inherit;
+  }
+}
